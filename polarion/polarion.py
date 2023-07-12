@@ -5,6 +5,8 @@ import requests
 from zeep import Client, Transport
 from zeep.plugins import HistoryPlugin
 
+from polarion.baseline import Baseline
+
 from .project import Project
 import logging
 logger = logging.getLogger(__name__)
@@ -208,6 +210,14 @@ class Polarion(object):
             return self.services[name]['client'].get_type(type_name)
         else:
             raise Exception('Service does not exsist')
+        
+    def queryBaselines(self, query='*:*', sort='*'):
+        service = self.getService('Tracker')
+        baselines_data = service.queryBaselines(query, sort)
+        baselines = [Baseline(self, baseline_dict) for baseline_dict in baselines_data]
+        
+        return baselines
+
 
     def getProject(self, project_id):
         """Get a Polarion project
