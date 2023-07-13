@@ -36,7 +36,9 @@ class Baseline(object):
             raise Exception(f'Baseline not retrieved from Polarion')
 
     def queryModulesInBaseline(self, query='*:*', sort='*'):
-
+        """
+        Put query as 'project.id:<projectID>' to get documents in a specific project.
+        """
         elements = [
             "attachments",
             "comments",
