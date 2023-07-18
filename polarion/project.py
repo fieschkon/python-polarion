@@ -188,6 +188,9 @@ class Project(object):
                 Workitem(self.polarion, self, workitem.id))
         return return_list
     
+    def getBaselines(self):
+        return self.polarion.queryBaselines(f'project.id:{self.id}')
+
     def searchWorkitemFullItemInBaseline(self, baselineRevision, query='', sort='uri', limit=-1):
         """Query for available workitems in baseline. This will query for the items and then fetch all result. May take a while for a big search with many results.
 
@@ -297,8 +300,8 @@ class Project(object):
         :return:string[]
         """
         service = self.polarion.getService('Tracker')
-        locations = service.getDocumentLocations(self.id)
-        return sorted(locations)
+        locations = service.queryModules(f'project.id:{self.id}', '*', ['id', 'title'], -1)
+        return locations
 
     def getDocumentsInSpace(self, space):
         """
@@ -321,7 +324,7 @@ class Project(object):
         :return: Document
         """
         return Document(self.polarion, self, location=location)
-
+    
     def __repr__(self):
         return f'Polarion project {self.name} prefix {self.tracker_prefix}'
 

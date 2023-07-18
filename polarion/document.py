@@ -202,10 +202,10 @@ class Document(CustomFields):
         service.deleteModule(self.uri)
 
     def __repr__(self):
-        return f'Polarion document {self.title} in {self.moduleFolder}'
+        return f'Polarion document {self.title if self.title else self.id} in {self.moduleFolder}'
 
     def __str__(self):
-        return f'Polarion document {self.title} in {self.moduleFolder}'
+        return f'Polarion document {self.title if self.title else self.id} in {self.moduleFolder}'
 
 
 class DocumentCreator(Creator):
